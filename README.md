@@ -30,7 +30,7 @@ partial_scan, truth = get_example_scan() #Downloads example from GitHub - don't 
 gen = Generator()
 
 #Complete the scan
-complete_scan = gen.inference(crop)
+complete_scan = gen.infer(crop)
 
 #Display results
 disp(partial_scan) #Partial scan to be completed
