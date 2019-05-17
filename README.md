@@ -16,7 +16,7 @@ Our training configuration can be partitioned into six subnetworks: an inner and
 
 ## Example Usage
 
-This short script is available as `inference.py` and gives an example of inference where the generate is loaded once used to complete multiple scans:
+This short script is available as `inference.py` and gives an example of inference where the generator is loaded once to complete multiple scans:
 
 ```python
 import numpy as np
@@ -32,6 +32,7 @@ gen = Generator()
 #Complete the scan
 complete_scan = gen.inference(crop)
 
+#Display results
 disp(partial_scan) #Partial scan to be completed
 disp(truth) #Ground truth
 disp(complete_scan) #Scan completed by neural network
