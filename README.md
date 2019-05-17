@@ -13,3 +13,68 @@ This repository is for the [paper](https://arxiv.org/abs/1807.11234) "Partial Sc
 </p>
 
 Our training configuration can be partitioned into six subnetworks: an inner and outer generator, inner generator trainer and small, medium and large scale discriminators. The generators are all that is needed for inference.
+
+## Example Usage
+
+This short script is available as `inference.py` and gives an example of inference where the generate is loaded once used to complete multiple scans:
+
+```python
+import numpy as np
+from inference import Generator, get_example_scan, disp
+
+#Use get_example_scan to select an example partial scan, ground truth pair from the project repository
+#Try replacing this with your own partial scan, ground truth pair!
+partial_scan, truth = get_example_scan()
+
+#Initialize the generator
+gen = Generator()
+
+#Complete the scan
+complete_scan = gen.inference(crop)
+
+disp(partial_scan) #Partial scan to be completed
+disp(truth) #Ground truth
+disp(complete_scan) #Scan completed by neural network
+```
+
+## Download
+
+Training and inference scripts can be downloaded or cloned from this repository
+
+```
+git clone https://github.com/Jeffrey-Ede/partial-STEM.git
+cd partial-STEM
+```
+
+The last saved checkpoint for a fully trained neural network is available [TODO](https://drive.google.com/open?id=1ehfRekaNUc1NJzjXeyhF3Tv9kOVWt8wN). It will download automatically the first time you run the inference script.
+
+## Dependencies
+
+This neural network was trained using TensorFlow and requires it and other common python libraries. Most of these libraries come with modern python distributions by default. If you don't have some of these libraries, they can be installed using pip or another package manager. We used python version 3.6.
+
+Libraries you need for both training and inference:
+
+For training you also need:
+
+* tensorFlow
+* numpy
+* cv2
+* functools
+* itertools
+* collections
+* six
+* os
+* argparse
+* random
+* scipy
+* Image
+* time
+* PIL
+
+## Training
+
+To continue training the neural network; end-to-end or to fine-tune it, you will need to adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to.
+
+## Training Data
+
+Araining dataset containing 161069 512x512 crops from STEM images is available upon request. Contact: {j.m.ede, r.beanland}@warwick.ac.uk. It will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication.
