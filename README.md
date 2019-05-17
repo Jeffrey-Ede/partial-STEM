@@ -24,7 +24,7 @@ from inference import Generator, get_example_scan, disp
 
 #Use get_example_scan to select an example partial scan, ground truth pair from the project repository
 #Try replacing this with your own partial scan, ground truth pair!
-partial_scan, truth = get_example_scan()
+partial_scan, truth = get_example_scan() #Downloads example from GitHub - don't worry about moving the script
 
 #Initialize the generator
 gen = Generator()
