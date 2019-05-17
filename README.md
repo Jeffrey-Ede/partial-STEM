@@ -74,7 +74,7 @@ For training you also need:
 
 ## Training
 
-To continue training the neural network; end-to-end or to fine-tune it, adjust some of the variables at the top of `train.py. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to.
+To continue training the neural network; end-to-end or to fine-tune it, adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to.
 
 ## Training Data
 
