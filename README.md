@@ -26,11 +26,11 @@ from inference import Generator, get_example_scan, disp
 #Try replacing this with your own partial scan, ground truth pair!
 partial_scan, truth = get_example_scan() #Downloads example from GitHub - don't worry about moving the script
 
-#Initialize the generator
-gen = Generator()
+#Initialize the generator using with statement for garbage collection
+with Generator() as gen:
 
-#Complete the scan
-complete_scan = gen.infer(crop)
+  #Complete the scan
+  complete_scan = gen.infer(crop)
 
 #Display results
 disp(partial_scan) #Partial scan to be completed
