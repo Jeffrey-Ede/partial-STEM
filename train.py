@@ -1,13 +1,3 @@
-"""
-Training script for partial scan completion with a multi-scale conditional
-adversarial network. Everything is in this file.
-
-To train from scratch, directories at the start of the script for training
-data and logging will need to be changed to your directories.
-
-"""
-
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -76,7 +66,7 @@ num_local_enhancer_blocks = 3
 
 data_dir = "//Desktop-sa1evjv/f/ARM_scans-crops/"
 
-modelSavePeriod = 8 #Train timestep in hours
+modelSavePeriod = 1 #Train timestep in hours
 modelSavePeriod *= 3600 #Convert to s
 model_dir = "//flexo.ads.warwick.ac.uk/Shared41/Microscopy/Jeffrey-Ede/models/stem-random-walk-nin-20-48/"
 
@@ -345,8 +335,8 @@ def generator_architecture(inputs, small_inputs, mask, small_mask, norm_decay, i
                     else:
                         batch_mean, batch_var = tf.nn.moments(x,[0])
             
-                    pop_mean_op = tf.assign(pop_mean, pop_mean * 0.99 + batch_mean * (1 - 0.99))
-                    pop_var_op = tf.assign(pop_var, pop_var * 0.99 + batch_var * (1 - 0.99))
+                    pop_mean_op = tf.assign(pop_mean, pop_mean * decay + batch_mean * (1 - decay))
+                    pop_var_op = tf.assign(pop_var, pop_var * decay + batch_var * (1 - decay))
             
                     with tf.control_dependencies([pop_mean_op, pop_var_op]):
                         return tf.nn.batch_normalization(x, batch_mean, batch_var, beta, scale, 0.001)
@@ -565,7 +555,7 @@ def generator_architecture(inputs, small_inputs, mask, small_mask, norm_decay, i
         else:
             input = tf.random_uniform(shape=int_shape(inputs), minval=-0.8, maxval=0.8)
             input *= mask
-            small_input = tf.image.resize_images(input, (cropsize//2, cropsize//2))
+            small_input = tf.image.resize_images(input, (cropsize//2, cropsize//2), align_corners=True)
 
         with tf.variable_scope("Inner"):
             if not use_mask:
@@ -885,24 +875,24 @@ def experiment(feature, ground_truth, mask, learning_rate_ph, discr_lr_ph, beta1
         small = tf.random_crop(
                     input,
                     size=(batch_size, discr_size, discr_size, multiscale_channels))
-        small = tf.image.resize_images(small, (discr_size, discr_size))
+        small = tf.image.resize_images(small, (discr_size, discr_size), align_corners=True)
         medium = tf.random_crop(
                     input,
                     size=(batch_size, 2*discr_size, 2*discr_size, multiscale_channels))
-        medium = tf.image.resize_images(medium, (discr_size, discr_size))
+        medium = tf.image.resize_images(medium, (discr_size, discr_size), align_corners=True)
         large = tf.random_crop(
                     input,
                     size=(batch_size, 4*discr_size, 4*discr_size, multiscale_channels))
-        large = tf.image.resize_images(large, (discr_size, discr_size))
+        large = tf.image.resize_images(large, (discr_size, discr_size), align_corners=True)
 
         return small, medium, large
 
     #Generator
     feature = tf.reshape(feature, [-1, cropsize, cropsize, channels])
-    feature_small = tf.image.resize_images(feature, (cropsize//2, cropsize//2))
+    feature_small = tf.image.resize_images(feature, (cropsize//2, cropsize//2), align_corners=True)
     truth = tf.reshape(ground_truth, [-1, cropsize, cropsize, channels])
-    truth_small = tf.image.resize_images(truth, (cropsize//2, cropsize//2))
-    small_mask = tf.image.resize_images(mask, (cropsize//2, cropsize//2))
+    truth_small = tf.image.resize_images(truth, (cropsize//2, cropsize//2), align_corners=True)
+    small_mask = tf.image.resize_images(mask, (cropsize//2, cropsize//2), align_corners=True)
 
     if initialize:
         print("Started initialization")
@@ -1535,10 +1525,10 @@ def main(job_dir, data_dir, variable_strategy, num_gpus, log_device_placement,
 
                 #print(tf.all_variables())
                 saver = tf.train.Saver(max_to_keep=1)
-                #saver.restore(sess, tf.train.latest_checkpoint(model_dir+"model/"))
+                saver.restore(sess, tf.train.latest_checkpoint(model_dir+"model/"))
                 #saver.restore(sess, tf.train.latest_checkpoint("Z:/Jeffrey-Ede/models/stem-random-walk-nin-20-43/"+"notable_ckpts/"))
 
-                counter = 0
+                counter = 2683139#2_625_499#2_590_009#0#2_500_000
                 val_counter = 0
                 save_counter = counter
                 counter_init = counter+1
@@ -1567,7 +1557,7 @@ def main(job_dir, data_dir, variable_strategy, num_gpus, log_device_placement,
                 nat_stat_mean = 1.5
                 nat_stat2_mean = 4.
 
-                total_iters = 2_000_000
+                total_iters = 5_000_000#1_000_000
 
                 discr_beta1 = 0.5
                 discr_learning_rate = 0.0001
@@ -1586,7 +1576,7 @@ def main(job_dir, data_dir, variable_strategy, num_gpus, log_device_placement,
                     while time.time()-time0 < modelSavePeriod:
 
                         if counter == 500_000:
-                            counter == 2_500_000
+                            counter = 2_500_000
                             total_iters = 5_000_000
 
                         if not val_counter % val_skip_n:
@@ -1602,7 +1592,6 @@ def main(job_dir, data_dir, variable_strategy, num_gpus, log_device_placement,
                                 gen_train = False
                             wass_iter += 1
 
-                        #First half of training is non-adversarial
                         if counter < 0.25*total_iters:
                             rate = 3*base_rate
                             beta1 = 0.9
@@ -1613,7 +1602,9 @@ def main(job_dir, data_dir, variable_strategy, num_gpus, log_device_placement,
                             rate = 3*base_rate * (1 - step/num_steps_in_lr_decay)
 
                             beta1 = 0.9 - 0.4*step/num_steps_in_lr_decay
-                        #Second half of training is adversarial
+                        #elif counter == total_iters//2:
+                        #    saver.save(sess, save_path=model_dir+"model/model", global_step=counter)
+                        #    quit()
                         elif counter < 0.75*total_iters:
                             rate = base_rate
                             beta1 = 0.5
@@ -1625,8 +1616,8 @@ def main(job_dir, data_dir, variable_strategy, num_gpus, log_device_placement,
                             beta1 = 0.5
 
                         if counter in [total_iters]:
-                            #Save at the end of training
                             saver.save(sess, save_path=model_dir+"notable_ckpts/model", global_step=counter)
+                        #if counter == total_iters:
                             quit()
 
                         learning_rate = np.float32(rate)
