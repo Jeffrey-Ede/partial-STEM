@@ -7,7 +7,6 @@ data and logging will need to be changed to your directories.
 
 """
 
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -153,8 +152,7 @@ def generator_architecture(inputs, small_inputs, mask, small_mask, norm_decay, i
             return mean_only_norm
 
         def _actv_func(x, slope=0.01):
-            #x = tf.nn.leaky_relu(x, slope)
-            x = tf.nn.relu(x)
+            x = tf.nn.leaky_relu(x, slope)
             return x
         
         def get_var_maybe_avg(var_name, ema, **kwargs):
@@ -215,15 +213,15 @@ def generator_architecture(inputs, small_inputs, mask, small_mask, norm_decay, i
                     else:
                         batch_mean, batch_var = tf.nn.moments(x,[0])
             
-                    pop_mean_op = tf.assign(pop_mean, pop_mean * decay + batch_mean * (1 - decay))
-                    pop_var_op = tf.assign(pop_var, pop_var * decay + batch_var * (1 - decay))
+                    pop_mean_op = tf.assign(pop_mean, pop_mean * 0.99 + batch_mean * (1 - 0.99))
+                    pop_var_op = tf.assign(pop_var, pop_var * 0.99 + batch_var * (1 - 0.99))
             
                     with tf.control_dependencies([pop_mean_op, pop_var_op]):
                         return tf.nn.batch_normalization(x, batch_mean, batch_var, beta, scale, 0.001)
 
         conv2d_counter = 0
         def conv2d(x, num_filters, stride=1, filter_size=3,  pad='SAME', nonlinearity=_actv_func, init_scale=1., init=init_pass, 
-                    use_weight_normalization=True, use_batch_normalization=False, mean_only_norm=True,
+                    use_weight_normalization=True, use_batch_normalization=False, mean_only_norm=False,
                     deterministic=False, slope=0.01):
 
             filter_size = [filter_size,filter_size]
@@ -435,7 +433,7 @@ def generator_architecture(inputs, small_inputs, mask, small_mask, norm_decay, i
         else:
             input = tf.random_uniform(shape=int_shape(inputs), minval=-0.8, maxval=0.8)
             input *= mask
-            small_input = tf.image.resize_images(input, (cropsize//2, cropsize//2), align_corners=True)
+            small_input = tf.image.resize_images(input, (cropsize//2, cropsize//2))
 
         with tf.variable_scope("Inner"):
             if not use_mask:
@@ -470,6 +468,39 @@ def generator_architecture(inputs, small_inputs, mask, small_mask, norm_decay, i
         return outer
 
 
+class RunConfig(tf.contrib.learn.RunConfig): 
+    def uid(self, whitelist=None):
+        """
+        Generates a 'Unique Identifier' based on all internal fields.
+        Caller should use the uid string to check `RunConfig` instance integrity
+        in one session use, but should not rely on the implementation details, which
+        is subject to change.
+        Args:
+          whitelist: A list of the string names of the properties uid should not
+            include. If `None`, defaults to `_DEFAULT_UID_WHITE_LIST`, which
+            includes most properties user allowes to change.
+        Returns:
+          A uid string.
+        """
+        if whitelist is None:
+            whitelist = run_config._DEFAULT_UID_WHITE_LIST
+
+        state = {k: v for k, v in self.__dict__.items() if not k.startswith('__')}
+        # Pop out the keys in whitelist.
+        for k in whitelist:
+            state.pop('_' + k, None)
+
+        ordered_state = collections.OrderedDict(
+            sorted(state.items(), key=lambda t: t[0]))
+        # For class instance without __repr__, some special cares are required.
+        # Otherwise, the object address will be used.
+        if '_cluster_spec' in ordered_state:
+            ordered_state['_cluster_spec'] = collections.OrderedDict(
+                sorted(ordered_state['_cluster_spec'].as_dict().items(), key=lambda t: t[0]))
+        return ', '.join(
+            '%s=%r' % (k, v) for (k, v) in six.iteritems(ordered_state))
+
+
 class Generator(object):
     """Load generator ready to complete partial scans."""
 
@@ -484,6 +515,8 @@ class Generator(object):
         self._partial_scan = tf.placeholder(tf.float32, shape=[batch_size, cropsize, cropsize, channels])
         self._mask = tf.placeholder(tf.float32, shape=[batch_size, cropsize, cropsize, channels])
 
+        self._norm_decay = tf.placeholder(tf.float32, shape=(), name='norm_decay')
+
         half_partial_scan = tf.image.resize_images(self._partial_scan, (cropsize//2, cropsize//2), align_corners=True)
         half_mask = tf.image.resize_images(self._mask, (cropsize//2, cropsize//2), align_corners=True)
 
@@ -493,7 +526,7 @@ class Generator(object):
             half_partial_scan, 
             self._mask, 
             half_mask, 
-            1., 
+            self._norm_decay, 
             True)
 
         #Apply neural network
@@ -502,10 +535,17 @@ class Generator(object):
             half_partial_scan, 
             self._mask, 
             half_mask, 
-            1., 
+            self._norm_decay, 
             False)
 
-        self._sess = tf.Session()
+        # Session configuration.
+        sess_config = tf.ConfigProto(
+            allow_soft_placement=True,
+            log_device_placement=False,#Once placement is correct, this fills up too much of the cmd window...
+            intra_op_parallelism_threads=0,
+            gpu_options=tf.GPUOptions(force_gpu_compatible=True, allow_growth=True))
+
+        self._sess = tf.Session(config=sess_config)
 
         self._sess.run(tf.global_variables_initializer())
 
@@ -536,11 +576,11 @@ class Generator(object):
         #If images are 2D, add batch and feature dimensions
         if add_dims:
             orig_partial_scan_shape = partial_scan.shape
-            partial_scan = np.expand_dims(np.expand_dims(partial_scan, axis=0), axis=3)
+            partial_scan = np.expand_dims(np.reshape(partial_scan, (cropsize, cropsize, channels)), axis=0)
 
-            path = np.expand_dims(np.expand_dims(path, axis=0), axis=3)
+            path = np.expand_dims(np.reshape(path, (cropsize, cropsize, channels)), axis=0)
 
-        feed_dict = { self._partial_scan: partial_scan, self._mask: path }
+        feed_dict = { self._partial_scan: partial_scan, self._mask: path, self._norm_decay: np.float32(1.) }
 
         completed_scans = self._sess.run(
             self._complete_scan,
@@ -551,79 +591,24 @@ class Generator(object):
 
         return completed_scans
 
-    @staticmethod
-    def inspiral(coverage, side, num_steps=10_000):
-        """Duration spent at each location as a particle falls in a magnetic 
-        field. Trajectory chosen so that the duration density is (approx.)
-        evenly distributed. Trajectory is calculated stepwise.
-    
-        Args: 
-            coverage: Average amount of time spent at a random pixel
-            side: Sidelength of square image that the motion is 
-            inscribed on.
-
-        Returns:
-            Amounts of time spent at each pixel on a square image as a charged
-            particle inspirals.
-        """
-    
-        #Use size that is larger than the image
-        size = int(np.ceil(np.sqrt(2)*side))
-
-        #Maximum radius of motion
-        R = size/2
-
-        #Get constant in equation of motion 
-        k = 1/ (2*np.pi*coverage)
-
-        #Maximum theta that is in the image
-        theta_max = R / k
-
-        #Equispaced steps
-        theta = np.arange(0, theta_max, theta_max/num_steps)
-        r = k * theta
-
-        #Convert to cartesian, with (0,0) at the center of the image
-        x = r*np.cos(theta) + R
-        y = r*np.sin(theta) + R
-
-        #Draw spiral
-        z = np.empty((x.size + y.size,), dtype=x.dtype)
-        z[0::2] = x
-        z[1::2] = y
-
-        z = list(z)
-
-        img = Image.new('F', (size,size), "black")
-        img_draw = ImageDraw.Draw(img)
-        img_draw = img_draw.line(z)
-    
-        img = np.asarray(img)
-        img = img[size//2-side//2:size//2+side//2+side%2, 
-                  size//2-side//2:size//2+side//2+side%2]
-
-        #Blur path
-        img = cv2.GaussianBlur(img,(3,3),0)
-
-        return img
-
-
 def get_example_scan(idx=None):
 
     if idx == None:
         idx = random.randint(1, 5)
 
-    partial_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/partial_scan-{idx}.tif"
+    partial_scan_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/partial_scan-{idx}.tif"
+    path_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/mask-{idx}.tif"
     truth_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/truth-{idx}.tif"
 
-    partial_scan = imread(partial_filepath, mode="F")
+    partial_scan = imread(partial_scan_filepath, mode="F")
+    path = imread(path_filepath, mode="F")
     truth = imread(truth_filepath, mode="F")
 
     #Scale to [-1,1]. The examples are saved in [0,1] to avoid issues with display.
     #partial_scan = 2*partial_scan-1
     #truth = 2*truth - 1
 
-    return partial_scan, truth
+    return partial_scan, path, truth
 
 def scale0to1(img):
     """Rescale image between 0 and 1"""
@@ -656,8 +641,8 @@ if __name__ == "__main__":
 
     ckpt_dir = "//flexo.ads.warwick.ac.uk/Shared41/Microscopy/Jeffrey-Ede/models/stem-random-walk-nin-20-48/model/"
 
-    partial_scan, truth = get_example_scan()
+    partial_scan, path, truth = get_example_scan()
 
     gen = Generator(ckpt_dir=ckpt_dir)
-    disp(gen.infer(partial_scan))
+    disp(gen.infer(partial_scan, path))
     #img_save(gen.infer(partial_scan), "C:/dump/test.tif")
