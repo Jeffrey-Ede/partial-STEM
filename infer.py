@@ -1254,18 +1254,18 @@ def get_example_scan(idx=None):
     if idx == None:
         idx = random.randint(1, 5)
 
-    partial_scan_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/partial_scan-{idx}.tif"
-    path_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/mask-{idx}.tif"
-    truth_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/truth-{idx}.tif"
+    #partial_scan_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/partial_scan-{idx}.tif"
+    #path_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/mask-{idx}.tif"
+    #truth_filepath = os.getcwd().replace("\\", "/") + f"/example_scans/truth-{idx}.tif"
 
-    partial_scan = imread(partial_scan_filepath, mode="F")
-    path = imread(path_filepath, mode="F")
-    truth = imread(truth_filepath, mode="F")
+    #partial_scan = imread(partial_scan_filepath, mode="F")
+    #path = imread(path_filepath, mode="F")
+    #truth = imread(truth_filepath, mode="F")
 
-    #start = r"Z:/Jeffrey-Ede/models/stem-random-walk-nin-20-48/"
-    #partial_scan = imread(start+"input-2700000.tif", mode="F")
-    #path = imread(start+"mask-2700000.tif", mode="F")
-    #truth = imread(start+"truth-2700000.tif", mode="F")
+    start = r"Z:/Jeffrey-Ede/models/stem-random-walk-nin-20-48/"
+    partial_scan = imread(start+"input-2700000.tif", mode="F")
+    path = imread(start+"mask-2700000.tif", mode="F")
+    truth = imread(start+"truth-2700000.tif", mode="F")
 
     return partial_scan, path, truth
 
