@@ -27,10 +27,13 @@ from inference import Generator, get_example_scan, disp
 partial_scan, truth = get_example_scan() #Downloads example from GitHub - don't worry about moving the script
 
 #Initialize the generator using with statement for garbage collection
-with Generator() as gen:
+gen = Generator()
 
-  #Complete the scan
-  complete_scan = gen.infer(crop)
+#Complete the scan
+complete_scan = gen.infer(crop) 
+
+#Generate can be reused multiple times once it hase been initialised
+# ... 
 
 #Display results
 disp(partial_scan) #Partial scan to be completed
