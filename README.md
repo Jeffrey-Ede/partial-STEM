@@ -1,6 +1,6 @@
 # Partial Scanning Transmission Electron Microscopy
 
-This repository is for the [paper](https://arxiv.org/abs/1807.11234) "Partial Scan Electron Microscopy with Deep Learning". It contains source code for a multi-scale generative adversarial network that can complete 512x512 electron micrographs from partial scans. For partial scans with 1/20 coverage, it has a 2.6% intensity error. Inference takes 20-30 ms, enabling real-time partial scan completion.
+This repository is for the [TODO](link goes here) "Partial Scan Electron Microscopy with Deep Learning". It contains source code for a multi-scale generative adversarial network that can complete 512x512 electron micrographs from partial scans. For partial scans with 1/20 coverage, it has a 2.6% intensity error. Inference takes 20-30 ms, enabling real-time partial scan completion.
 
 <p align="center">
   <img src="adv_vs_non-adv.png">
@@ -50,7 +50,7 @@ git clone https://github.com/Jeffrey-Ede/partial-STEM.git
 cd partial-STEM
 ```
 
-The last saved checkpoint for a fully trained neural network is available [TODO](https://drive.google.com/open?id=1ehfRekaNUc1NJzjXeyhF3Tv9kOVWt8wN). It will download automatically the first time you run the inference script.
+The last saved checkpoint for a fully trained neural network is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz).
 
 ## Dependencies
 
@@ -77,8 +77,8 @@ For training you also need:
 
 ## Training
 
-To continue training the neural network; end-to-end or to fine-tune it, adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to.
+To continue training the neural network; end-to-end or to fine-tune it, adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to. Note that there may be minor differences between the script and the paper due to active development. 
 
 ## Training Data
 
-A training dataset with 161069 512x512 crops from STEM images is available upon request. Contact: {j.m.ede, r.beanland}@warwick.ac.uk. It will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication.
+A training dataset with 161069 512x512 crops from STEM images is available upon request. Contact: {j.m.ede, r.beanland}@warwick.ac.uk. It will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication. A link will be provided here.
