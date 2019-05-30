@@ -77,10 +77,17 @@ For training you also need:
 
 ## Training
 
-To continue training the neural network; end-to-end or to fine-tune it, adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to. Note that there may be minor differences between the script and the paper due to active development. 
+To continue training the neural network; end-to-end or to fine-tune it, you will need to adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to. Note that there may be minor differences between the script and the paper due to active development. 
 
 Currently, there is only a 1/20 coverage model. However, a 1/40 coverage model will be uploaded in the future.
 
 ## Training Data
 
-A training dataset with 161069 512x512 crops from STEM images is available upon request. Contact: {j.m.ede, r.beanland}@warwick.ac.uk. It will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication. A link will be provided here.
+A training dataset with 161069 512x512 crops from STEM images is available upon request. 
+
+Contact: 
+
+* Email: j.m.ede@warwick.ac.uk
+* Email: r.beanland}@warwick.ac.uk
+
+Our training data will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication. A link will be provided here.
