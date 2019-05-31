@@ -88,7 +88,7 @@ A training dataset with 161069 512x512 crops from STEM images is available upon 
 
 Contact: 
 
-* Email: j.m.ede@warwick.ac.uk
-* Email: r.beanland@warwick.ac.uk
+* Jeffrey Ede, Email: j.m.ede@warwick.ac.uk
+* Richard Beanland, Email: r.beanland@warwick.ac.uk
 
 Our training data will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication. A link will be provided here.
