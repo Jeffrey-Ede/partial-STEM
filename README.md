@@ -91,4 +91,4 @@ Contact:
 * Jeffrey Ede, Email: j.m.ede@warwick.ac.uk
 * Richard Beanland, Email: r.beanland@warwick.ac.uk
 
-Our training data will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication. The dataset for this repo will also be provided by itself on the WLEMD sever. A link will be provided here.
+Our training data will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication. The dataset for this repo will also be provided by itself on the WLEMD severr. A link will be provided here.
