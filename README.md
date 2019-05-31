@@ -27,7 +27,8 @@ from inference import Generator, get_example_scan, disp
 partial_scan, truth = get_example_scan() #Downloads example from GitHub - don't worry about moving the script
 
 #Initialize generator so it's ready for repeated use
-gen = Generator()
+my_ckpt_dir = "path/to/model/checkpoint/"
+gen = Generator(ckpt_dir=my_ckpt_dir)
 
 #Complete the scan
 complete_scan = gen.infer(crop) 
