@@ -22,7 +22,7 @@ This short script is available as `inference.py` and gives an example of inferen
 from inference import Generator, get_example_scan, disp
 
 #Use get_example_scan to select an example partial scan, ground truth pair from the project repository
-#Try replacing this with your own partial scan, ground truth pair!
+#Try replacing this with your own (partial scan, ground truth) pair!
 partial_scan, truth = get_example_scan() #Uses one of the examples from this repo
 
 #Initialize generator so it's ready for repeated use
@@ -32,7 +32,7 @@ gen = Generator(ckpt_dir=my_ckpt_dir)
 #Complete the scan
 complete_scan = gen.infer(crop) 
 
-#Generate can be reused multiple times once it has been initialised
+#The generator can be reused multiple times once it has been initialised
 # ... 
 
 #Display results
