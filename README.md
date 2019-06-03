@@ -77,7 +77,7 @@ The last saved checkpoint for a fully trained neural network is available [here]
 
 ## Training Data
 
-A training dataset with 161069 512x512 crops from STEM images is available upon request. 
+A training dataset with 161069 non-overlapping 512x512 crops from STEM images is available upon request. 
 
 Contact: 
 
