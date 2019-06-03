@@ -19,7 +19,6 @@ Our training configuration can be partitioned into six subnetworks: an inner and
 This short script is available as `inference.py` and gives an example of inference where the generator is loaded once to complete multiple scans:
 
 ```python
-import numpy as np
 from inference import Generator, get_example_scan, disp
 
 #Use get_example_scan to select an example partial scan, ground truth pair from the project repository
