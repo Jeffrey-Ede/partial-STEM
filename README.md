@@ -6,13 +6,17 @@ This repository is for the [paper](https://arxiv.org/abs/1905.13667) "Partial Sc
   <img src="adv_vs_non-adv.png">
 </p>
 
+Examples show adversarial and non-adversarial completions of test set 512×512 1/20 coverage blurred spiral partial scans.  Adversarial completions have realistic noise characteristics and colouration whereas non-adversarial completions are blurry. The bottom row shows a failure case where detail is too fine for the generator to resolve.  Enlarged 64×64 regions from the top left of each image are inset to ease comparison.
+
 ## Architecture
+
+Our training configuration can be partitioned into six subnetworks: an inner and outer generator, inner generator trainer and small, medium and large scale discriminators. The generators are all that is needed for inference.
 
 <p align="center">
   <img src="simplified_gan.png">
 </p>
 
-Our training configuration can be partitioned into six subnetworks: an inner and outer generator, inner generator trainer and small, medium and large scale discriminators. The generators are all that is needed for inference.
+The  inner  generator  produces  large-scale  features  from  inputs. These are mapped to half-size completions by a trainer network and recombined with the input to generate full-size completions by the outer generator.  Multiple discriminators assess multi-scale crops from input images and full-size completions.
 
 ## Example Usage
 
