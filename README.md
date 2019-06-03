@@ -54,10 +54,6 @@ cd partial-STEM
 
 This neural network was trained using TensorFlow and requires it and other common python libraries. Most of these libraries come with modern python distributions by default. If you don't have some of these libraries, they can be installed using pip or another package manager. We used python version 3.6.
 
-Libraries you need for both training and inference:
-
-For training you also need:
-
 * tensorFlow
 * numpy
 * cv2
