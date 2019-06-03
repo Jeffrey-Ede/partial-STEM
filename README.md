@@ -51,8 +51,6 @@ git clone https://github.com/Jeffrey-Ede/partial-STEM.git
 cd partial-STEM
 ```
 
-The last saved checkpoint for a fully trained neural network is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz).
-
 ## Dependencies
 
 This neural network was trained using TensorFlow and requires it and other common python libraries. Most of these libraries come with modern python distributions by default. If you don't have some of these libraries, they can be installed using pip or another package manager. We used python version 3.6.
@@ -80,7 +78,7 @@ For training you also need:
 
 To continue training the neural network; end-to-end or to fine-tune it, you will need to adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to. Note that there may be minor differences between the script and the paper due to active development. 
 
-Currently, there is only a 1/20 coverage model. However, a 1/40 coverage model will be uploaded in the future.
+The last saved checkpoint for a fully trained neural network is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz). Currently, there is only a 1/20 coverage model. However, a 1/40 coverage model will be uploaded in the future.
 
 ## Training Data
 
