@@ -77,7 +77,7 @@ This neural network was trained using TensorFlow and requires it and other commo
 
 To continue training the neural network; end-to-end or to fine-tune it, you will need to adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to. Note that there may be minor differences between the script and the paper due to active development. 
 
-The last saved checkpoint for a fully trained neural network is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz). Currently, there is only a 1/20 coverage model. However, a 1/40 coverage model will be uploaded in the future.
+The last saved checkpoint for a fully trained 1/20 coverage system of neural networks is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz). A 1/40 coverage model is also available; however, coverage is too low for it to be effective. Both networks were trained on artificially noisy scans, which are harder than typical scans. A 1/20 model trained on typical 1/20 coverage scans with real noise will be uploaded in the future.
 
 ## Training Data
 
