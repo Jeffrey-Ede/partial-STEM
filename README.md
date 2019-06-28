@@ -81,11 +81,4 @@ The last saved checkpoint for a fully trained 1/20 coverage system of neural net
 
 ## Training Data
 
-A training dataset with 161069 non-overlapping 512x512 crops from STEM images is available upon request. 
-
-Contact: 
-
-* Jeffrey Ede, Email: j.m.ede@warwick.ac.uk
-* Richard Beanland, Email: r.beanland@warwick.ac.uk
-
-Our training data will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication. The dataset for this repo will also be provided by itself on the WLEMD server. A link will be provided here.
+A training dataset with 161069 non-overlapping 512x512 crops from STEM images is available [here]. (https://warwick.ac.uk/fac/sci/physics/research/condensedmatt/microscopy/research/machinelearning/). Our training data will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication.
