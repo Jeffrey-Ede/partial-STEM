@@ -1,6 +1,6 @@
 # Partial Scanning Transmission Electron Microscopy
 
-This repository is for the [paper](https://arxiv.org/abs/1905.13667) "Partial Scan Electron Microscopy with Deep Learning". It contains TensorFlow code for a multi-scale generative adversarial network that completes 512x512 electron micrographs from partial scans. For spiral scans selected with a binary mask with 1/17.9 px coverage, it has a 3.2% root mean square intensity error.
+This repository is for the [paper](https://arxiv.org/abs/1905.13667) "Partial Scan Electron Microscopy with Deep Learning". It contains TensorFlow code for a multi-scale generative adversarial network that completes 512x512 electron micrographs from partial scans. For spiral scans selected with a binary mask with 1/17.9 px coverage, it has a 3.8% root mean square intensity error.
 
 <p align="center">
   <img src="adv_vs_non-adv.png">
@@ -79,7 +79,7 @@ To continue training the neural network; from scratch or to fine-tune it, you wi
 
 The last saved checkpoint for a fully trained 1/20 coverage system of neural networks is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz). A 1/40 coverage model is also available. Both networks were trained on artificially noisy scans, which are harder than typical scans. A 1/20 model trained on typical 1/20 coverage scans with real noise will be uploaded in the future.
 
-A set of source code directories for spiral scans selected with binary masks is in `pstem'. Coverages are listed in `notes.txt` files. Each directory contains neural network source code, the loss log, notes, and source code variants used to calculate test set performances and sheets of examples.
+A set of source code directories for spiral scans selected with binary masks is in `pstem`. Coverages are listed in `notes.txt` files. Each directory contains neural network source code, the loss log, notes, and source code variants used to calculate test set performances and sheets of examples.
 
 ## Training Data
 
