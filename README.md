@@ -77,7 +77,7 @@ This neural network was trained using TensorFlow and requires it and other commo
 
 To continue training the neural network; from scratch or to fine-tune it, you will need to adjust some of the variables at the top of `train.py`. Specifically, variables indicating the location of your datasets and locations to save logs and checkpoints to. Note that there may be minor differences between the script and the paper due to active development. 
 
-The last saved checkpoint for a fully trained 1/20 coverage system of neural networks is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz). A 1/40 coverage model is also available. Both networks were trained on artificially noisy scans, which are harder than typical scans. A 1/20 model trained on typical 1/20 coverage scans with real noise will be uploaded in the future.
+The last saved checkpoint for a fully trained 1/20 px coverage system of neural networks is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz). A 1/40 px coverage model is also available. Both networks were trained on artificially noisy scans, which are harder than typical scans. A 1/20 px model trained on typical 1/20 px coverage scans with real noise will be uploaded in the future.
 
 A set of directories for spiral scans selected with binary masks is in `pstem`. Coverages are listed in `notes.txt` files. Each directory contains neural network source code, the loss log, notes, and source code variants used to calculate test set performances and sheets of examples.
 
