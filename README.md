@@ -83,4 +83,4 @@ A set of source code directories for spiral scans selected with binary masks is 
 
 ## Training Data
 
-A training dataset with 161069 non-overlapping 512x512 crops from STEM images is available [here](https://warwick.ac.uk/fac/sci/physics/research/condensedmatt/microscopy/research/machinelearning/). Our training data will also be made available as a subset of the Warwick Large Electron Microscopy Dataset (WLEMD) in a future publication.
+A training dataset with 161069 non-overlapping 512x512 crops from STEM images is available [here](https://warwick.ac.uk/fac/sci/physics/research/condensedmatt/microscopy/research/machinelearning/).
