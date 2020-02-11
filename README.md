@@ -6,7 +6,7 @@ This repository is for the [paper](https://arxiv.org/abs/1905.13667) "Partial Sc
   <img src="adv_vs_non-adv.png">
 </p>
 
-Examples show adversarial and non-adversarial completions of test set 512×512 1/20 coverage blurred spiral partial scans.  Adversarial completions have realistic noise characteristics and colouration whereas non-adversarial completions are blurry. The bottom row shows a failure case where detail is too fine for the generator to resolve.  Enlarged 64×64 regions from the top left of each image are inset to ease comparison.
+Examples show adversarial and non-adversarial completions of test set 512×512 1/20 coverage blurred spiral partial scans.  Adversarial completions have realistic noise characteristics and colouration whereas non-adversarial completions are blurry. The bottom row shows a failure case where detail is too fine for the generator to resolve. Enlarged 64×64 regions from the top left of each image are inset to ease comparison.
 
 ## Architecture
 
@@ -79,7 +79,9 @@ To continue training the neural network; from scratch or to fine-tune it, you wi
 
 The last saved checkpoint for a fully trained 1/20 px coverage system of neural networks is available [here](https://drive.google.com/open?id=1jkf9iSnarcuj2uRmsWmCEbghfncgWdXz). A 1/40 px coverage model is also available. Both networks were trained on artificially noisy scans, which are harder than typical scans. A 1/20 px model trained on typical 1/20 px coverage scans with real noise will be uploaded in the future.
 
-A set of directories for spiral scans selected with binary masks is in `pstem`. Coverages are listed in `notes.txt` files. Each directory contains neural network source code, the loss log, notes, and source code variants used to calculate test set performances and sheets of examples.
+A set of directories for spiral scans selected with binary masks is in `pstem`. Coverages are listed in `notes.txt` files. Each directory contains neural network source code, notes, and source code variants used to calculate test set performances and sheets of examples. 
+
+A set of directories for systematic error experiments is in `systematic_errors`. 
 
 ## Training Data
 
