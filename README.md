@@ -8,7 +8,7 @@ This repository is for the [paper](https://arxiv.org/abs/1905.13667) "Partial Sc
 
 Examples show adversarial and non-adversarial completions of test set 512×512 1/20 coverage blurred spiral partial scans.  Adversarial completions have realistic noise characteristics and colouration whereas non-adversarial completions are blurry. The bottom row shows a failure case where detail is too fine for the generator to resolve. Enlarged 64×64 regions from the top left of each image are inset to ease comparison.
 
-A set of directories for spiral scans selected with binary masks is in `pstem`. Coverages are listed in `notes.txt` files. Each directory contains source code, notes, and script variants used to calculate test set performances and sheets of examples. 
+A set of directories for spiral scans selected with binary masks is in `pstem`. Coverages are listed in `notes.txt` files. Each directory contains source code, notes, and script variants used to calculate test set performances and create sheets of examples. 
 
 A set of directories for systematic error experiments is in `systematic_errors`. 
 
