@@ -1,6 +1,6 @@
 # Partial Scanning Transmission Electron Microscopy
 
-This repository is for the [paper](https://arxiv.org/abs/1905.13667) "Partial Scan Electron Microscopy with Deep Learning". It contains TensorFlow code for a multi-scale generative adversarial network that completes 512x512 electron micrographs from partial scans. For spiral scans selected with a binary mask with 1/17.9 px coverage and non-adversarial pre-training, it has a 3.8% root mean square intensity error.
+This repository is for the [paper](https://arxiv.org/abs/1905.13667) "Partial Scan Electron Microscopy with Deep Learning". It contains TensorFlow code for a multi-scale generative adversarial network that completes 512x512 electron micrographs from partial scans. For spiral scans selected by a binary mask with 1/17.9 px coverage and non-adversarial pre-training, it has a 3.8% root mean square intensity error.
 
 <p align="center">
   <img src="adv_vs_non-adv.png">
