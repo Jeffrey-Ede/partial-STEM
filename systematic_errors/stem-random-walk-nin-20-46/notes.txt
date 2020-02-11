@@ -1,0 +1,1 @@
+Weighted, Clipped. Weights are exponentials of squared errors.

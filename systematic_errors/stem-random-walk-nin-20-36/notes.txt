@@ -1,0 +1,1 @@
+20x compression spiral. Adversarial. MSE for 500_000 steps, then adversarial for 500_000.
