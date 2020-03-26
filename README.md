@@ -92,7 +92,7 @@ A training dataset with 161069 non-overlapping 512x512 crops from STEM images is
 
 ## Misc Scripts
 
-Source code use to create many of the images in our paper are in the `misc` folder.
+Python scripts used to create some of the images in our paper are in the `misc` folder.
 
 ## Contact
 
