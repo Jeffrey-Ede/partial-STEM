@@ -88,7 +88,11 @@ The last saved checkpoint for a fully trained 1/20 px coverage system of neural 
 
 ## Training Data
 
-A training dataset with 161069 non-overlapping 512x512 crops from STEM images is available [here](https://warwick.ac.uk/fac/sci/physics/research/condensedmatt/microscopy/research/machinelearning/).
+A training dataset with 161069 non-overlapping 512x512 crops from STEM images is available [here](https://github.com/Jeffrey-Ede/datasets/wiki).
+
+## Misc Scripts
+
+Source code use to create many of the images in our paper are in the `misc` folder.
 
 ## Contact
 
