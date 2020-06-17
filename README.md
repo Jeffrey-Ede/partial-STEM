@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3662481.svg)](https://doi.org/10.5281/zenodo.3662481)
 
-This repository is for the [preprint](https://arxiv.org/abs/1905.13667)|[paper](https://doi.org/10.1038/s41598-020-65261-0) "Partial Scanning Transmission Electron Microscopy with Deep Learning". Bethany Connolly published an excellent [summary](https://medium.com/@bethanyconnolly1/atomic-scale-deep-learning-34238feda632) in Medium.
+This repository is for the [preprint](https://arxiv.org/abs/1905.13667)|[paper](https://doi.org/10.1038/s41598-020-65261-0) "Partial Scanning Transmission Electron Microscopy with Deep Learning". Supplementary information is [here](https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-020-65261-0/MediaObjects/41598_2020_65261_MOESM1_ESM.pdf) and Bethany Connolly published a [summary](https://towardsdatascience.com/atomic-scale-deep-learning-34238feda632) in Towards Data Science.
 
 Our repository contains TensorFlow code for a multi-scale generative adversarial network that completes 512x512 electron micrographs from partial scans. For spiral scans selected by a binary mask with 1/17.9 px coverage and non-adversarial pre-training, it has a 3.8% root mean square intensity error.
 
